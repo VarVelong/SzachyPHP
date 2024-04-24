@@ -6,10 +6,7 @@
     <style>
         table {
             border-collapse: collapse;
-        }
-
-        body {
-            align-items: center;
+            margin: 20px auto;
         }
 
         td {
@@ -29,20 +26,53 @@
             background-color: #b58863;
         }
 
+        #choiceButtons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         #choiceButtons input {
-            width: 150px;
+            width: 100px;
             height: 35px;
-            font-size: 25px;
+            font-size: 18px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
         }
 
-        #answer{
+        #choiceButtons input:hover {
+            background-color: #45a049;
+        }
+
+        #answer {
             background-color: black;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: center;
         }
 
-        #answer:hover{
+        #answer:hover {
             background-color: white;
         }
 
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        body {
+            border: 5px double black;
+            margin: 20px;
+        }
+
+        #prompt {
+            border: 3px solid red;
+            width: 200px;
+            height: 100px;
+        }
 
     </style>
 </head>
@@ -58,6 +88,11 @@
     $board = [[]];
     $conn = new mysqli($servername, $username, $password, $dbname);
     const MAX_BOARD_LENGTH = 8;
+
+    if ($_POST["mybutton"] == null){
+        $_POST["mybutton"] = 1;
+    }
+     
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -91,7 +126,6 @@
         if (mysqli_num_rows($result) > 0) {
             while($row = mysqli_fetch_assoc($result)) {
                 $board[$row["liczba"]][$row["litera"]] = $row["figura"];
-                // echo "<h1> {$row["instrukcja"]} </h1>";
             }
         } else {
             echo "0 results";
@@ -119,7 +153,7 @@
 
     if (isset($_POST["mybutton"]))
     {
-        echo "<h2> Zadanie {$_POST["mybutton"]} </h2>";
+        echo "<h1> Zadanie {$_POST["mybutton"]} </h1>";
     }
 
     $board = loadChessboard($board, MAX_BOARD_LENGTH, $conn);
